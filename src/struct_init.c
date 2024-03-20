@@ -14,3 +14,20 @@ t_stack	*stack_a_init(char **argv)
 	}
 	return (stack_a);
 }
+
+void	ft_maxbits(t_stack *stack)
+{
+	int	offset;
+	int	bits;
+
+	while (stack)
+	{
+		offset = 0;
+		while (stack->data << offset >= 0 && offset <= 32)
+			offset++;
+		bits = 32 - (32 - offset);
+		if (bits > stack->maxbits)
+			stack->maxbits = bits;
+		stack = stack->next;
+	}
+}

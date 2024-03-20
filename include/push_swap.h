@@ -17,7 +17,8 @@ int		swap(t_stack **stack_a, t_stack **stack_b, char type, int print);
 int		push(t_stack **stack_a, t_stack **stack_b, char type, int print);
 int		rotate(t_stack **stack_a, t_stack **stack_b, char type, int print);
 int		rrotate(t_stack **stack_a, t_stack **stack_b, char type, int print);
-int		big_sort(t_stack *stack_a, t_stack *stack_b);
+void	big_sort(t_stack **stack_a, t_stack *stack_b, int offset, int maxbits);
 int		is_ascending(t_stack *stack_a);
+void	ft_maxbits(t_stack *stack);
 
 #endif
