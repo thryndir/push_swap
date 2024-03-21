@@ -15,19 +15,51 @@ t_stack	*stack_a_init(char **argv)
 	return (stack_a);
 }
 
-void	ft_maxbits(t_stack *stack)
+void	indexing(t_stack *stack_a, int index)
+{
+	t_stack	*first;
+	t_stack	*second;
+	int		min;
+
+	min = INT_MAX;
+	first = stack_a;
+	second = stack_a;
+	while (first)
+	{
+		if (first->checked != 1 && first->data <= min)
+			min = first->data;
+		first = first->next;
+	}
+	while (second)
+	{
+		if (second->data == min && second->checked != 1)
+		{
+			second->pdata = second->data;
+			second->data = index;
+			second->checked = 1;
+		}
+		second = second->next;
+	}
+	if (index + 1 <= ft_lstsize(stack_a))
+		indexing(stack_a, index + 1);
+}
+
+int	ft_maxbits(t_stack *stack)
 {
 	int	offset;
 	int	bits;
+	int	maxbits;
 
+	maxbits = 0;
 	while (stack)
 	{
 		offset = 0;
 		while (stack->data << offset >= 0 && offset <= 32)
 			offset++;
-		bits = 32 - (32 - offset);
-		if (bits > stack->maxbits)
-			stack->maxbits = bits;
+		bits = 32 - offset;
+		if (bits > maxbits)
+			maxbits = bits;
 		stack = stack->next;
 	}
+	return (maxbits);
 }

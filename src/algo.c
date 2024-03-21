@@ -13,10 +13,38 @@ int	is_ascending(t_stack *stack)
 		if (stack->data <= stack->next->data)
 			stack = stack->next;
 		else
-			return (node_nbr);
+			return (0);
 		node_nbr++;
 	}
 	return (node_nbr);
+}
+
+int	is_negative(t_stack	*stack_a, int type)
+{
+	while (stack_a)
+	{
+		if (type == 0)
+		{
+			if (stack_a->data < 0)
+				return (1);
+		}
+		else 
+		{
+			if (stack_a->pdata < 0)
+					return (1);
+		}
+		stack_a = stack_a->next;
+	}
+	return (0);
+}
+
+void	reindexing(t_stack *stack_a)
+{
+	while (stack_a)
+	{
+		stack_a->data = stack_a->pdata;
+		stack_a = stack_a->next;
+	}
 }
 
 void	print_node(t_stack *stack)
@@ -52,7 +80,7 @@ void	big_sort(t_stack **stack_a, t_stack *stack_b, int offset, int maxbits)
 
 	cpt = 0;
 	size = ft_lstsize(*stack_a);
-	if (is_ascending(*stack_a) != ft_lstsize(*stack_a))
+	if (!is_ascending(*stack_a))
 	{
 		if (ft_lstsize(*stack_a) > 5)
 		{
