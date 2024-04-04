@@ -4,7 +4,7 @@ CFLAGS	= -Wextra -Wall -Werror -g
 HEADER = -Iinclude
 LIB	= lib/Libft/libft.a
 
-FILES = operations main struct_init algo
+FILES = operations main struct_init algo verif utils
 
 SRC_DIR = src/
 OBJ_DIR = obj/
@@ -15,7 +15,7 @@ OBJS	= $(addprefix $(OBJ_DIR), $(addsuffix .o, $(FILES)))
 all: $(NAME)
 
 $(NAME): $(OBJ_DIR) $(OBJS) $(LIB)
-	$(CC) $(OBJS) -o $(NAME) $(LIB)
+	$(CC) $(CFLAGS) $(OBJS) -o $(NAME) $(LIB)
 
 $(LIB):
 	make -C lib/Libft
@@ -27,7 +27,7 @@ $(OBJ_DIR):
 	mkdir $@
 
 clean:
-	rm -rf $(OBJS)
+	rm -rf $(OBJ_DIR)
 
 fclean: clean
 	@rm -rf $(NAME)

@@ -1,76 +1,103 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   algo.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lgalloux <lgalloux@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/03/29 16:38:39 by lgalloux          #+#    #+#             */
+/*   Updated: 2024/04/03 15:48:36 by lgalloux         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "push_swap.h"
 #include "libft.h"
 
-int	is_ascending(t_stack *stack)
+void	reverse_sort(t_stack *stack_a, t_stack **stack_b)
 {
-	int	node_nbr;
+	char	buff[3];
+	t_stack	*current;
+	int		i;
 
-	node_nbr = 1;
-	if (stack->next == NULL)
-		return (0);
-	while (stack->next)
+	current = *stack_b;
+	i = 0;
+	while (current)
 	{
-		if (stack->data <= stack->next->data)
-			stack = stack->next;
+		buff[i++] = current->index + '0';
+		current = current->next;
+	}
+	if ((same(buff, "312")) || (same(buff, "123")) == 1)
+	{
+		swap(&stack_a, stack_b, 'b', 1);
+		if (same(buff, "312"))
+			rotate(&stack_a, stack_b, 'b', 1);
 		else
-			return (0);
-		node_nbr++;
+			rrotate(&stack_a, stack_b, 'b', 1);
 	}
-	return (node_nbr);
+	else if (same(buff, "213") == 1)
+		rrotate(&stack_a, stack_b, 'b', 1);
+	else if (same(buff, "231") == 1)
+		swap(&stack_a, stack_b, 'b', 1);
+	else if ((same(buff, "132")))
+		rotate(&stack_a, stack_b, 'b', 1);
 }
 
-int	is_negative(t_stack	*stack_a, int type)
+void	tiny_sort(t_stack **stack_a, t_stack *stack_b)
 {
-	while (stack_a)
-	{
-		if (type == 0)
-		{
-			if (stack_a->data < 0)
-				return (1);
-		}
-		else 
-		{
-			if (stack_a->pdata < 0)
-					return (1);
-		}
-		stack_a = stack_a->next;
-	}
-	return (0);
-}
+	char	buff[3];
+	t_stack	*current;
+	int		i;
 
-void	reindexing(t_stack *stack_a)
-{
-	while (stack_a)
+	current = *stack_a;
+	i = 0;
+	while (current)
 	{
-		stack_a->data = stack_a->pdata;
-		stack_a = stack_a->next;
+		buff[i++] = current->index + '0';
+		current = current->next;
 	}
-}
-
-void	print_node(t_stack *stack)
-{
-	while (stack)
+	if ((same(buff, "132")) == 1 || (same(buff, "321")) == 1)
 	{
-		ft_printf("%d->", stack->data);
-		stack = stack->next;
-	}
-	write(1, "\n", 1);
-}
-
-void	print_bits(int	nbr)
-{
-	int	bit = 31;
-	ft_printnbr(nbr);
-	write(1, "\n", 1);
-	while (bit >= 0)
-	{
-		if ((nbr >> bit) & 1)
-			write(1, "1", 1);
+		swap(stack_a, &stack_b, 'a', 1);
+		if (same(buff, "132"))
+			rotate(stack_a, &stack_b, 'a', 1);
 		else
-			write(1, "0", 1);
-		bit--;
+			rrotate(stack_a, &stack_b, 'a', 1);
 	}
-	write(1, "\n", 1);
+	else if (same(buff, "213") == 1)
+		swap(stack_a, &stack_b, 'a', 1);
+	else if (same(buff, "231") == 1)
+		rrotate(stack_a, &stack_b, 'a', 1);
+	else if (same(buff, "312") == 1)
+		rotate(stack_a, &stack_b, 'a', 1);
+}
+
+void	small_sort(t_stack **stack_a, t_stack *stack_b)
+{
+	int	size;
+	int	cpt;
+
+	size = ft_lstsize(*stack_a);
+	cpt = 0;
+	if (size == 2)
+		rotate(stack_a, &stack_b, 'a', 1);
+	else if (size == 3)
+		tiny_sort(stack_a, stack_b);
+	else
+	{
+		while (cpt < 3)
+		{
+			while ((*stack_a)->index != 1 && (*stack_a)->index != 2
+				&& (*stack_a)->index != 3)
+				rotate(stack_a, &stack_b, 'a', 1);
+			push(stack_a, &stack_b, 'b', 1);
+			cpt++;
+		}
+		reverse_sort(*stack_a, &stack_b);
+		if (!is_ascending(*stack_a))
+			swap(stack_a, &stack_b, 'a', 1);
+		while (stack_b)
+			push(stack_a, &stack_b, 'a', 1);
+	}
 }
 
 void	big_sort(t_stack **stack_a, t_stack *stack_b, int offset, int maxbits)
@@ -86,7 +113,7 @@ void	big_sort(t_stack **stack_a, t_stack *stack_b, int offset, int maxbits)
 		{
 			while (cpt < size)
 			{
-				if ((*stack_a)->data >> offset & 1)
+				if ((*stack_a)->index >> offset & 1)
 					rotate(stack_a, &stack_b, 'a', 1);
 				else
 					push(stack_a, &stack_b, 'b', 1);
@@ -95,7 +122,9 @@ void	big_sort(t_stack **stack_a, t_stack *stack_b, int offset, int maxbits)
 			while (stack_b)
 				push(stack_a, &stack_b, 'a', 1);
 		}
+		else
+			small_sort(stack_a, stack_b);
 	}
-	if (offset + 1 <= maxbits)
+	if (offset + 1 <= maxbits && size > 5)
 		big_sort(stack_a, stack_b, offset + 1, maxbits);
 }

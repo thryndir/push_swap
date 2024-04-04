@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   operations.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: lgalloux <lgalloux@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/04/03 15:50:28 by lgalloux          #+#    #+#             */
+/*   Updated: 2024/04/03 15:52:34 by lgalloux         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "push_swap.h"
 #include "libft.h"
 
@@ -29,6 +41,7 @@ int	swap(t_stack **stack_a, t_stack **stack_b, char type, int print)
 int	push(t_stack **stack_a, t_stack **stack_b, char type, int print)
 {
 	t_stack	**stack;
+	t_stack	*temp;
 
 	if (type == 'a')
 		stack = stack_b;
@@ -36,7 +49,7 @@ int	push(t_stack **stack_a, t_stack **stack_b, char type, int print)
 		stack = stack_a;
 	if (*stack != NULL)
 	{
-		t_stack *temp = *stack;
+		temp = *stack;
 		*stack = (*stack)->next;
 		if (type == 'b')
 			ft_lstadd_front(stack_b, temp);
@@ -51,6 +64,7 @@ int	push(t_stack **stack_a, t_stack **stack_b, char type, int print)
 int	rotate(t_stack **stack_a, t_stack **stack_b, char type, int print)
 {
 	t_stack	**stack;
+	t_stack	*last;
 
 	if (type == 'a' || type == 'r')
 		stack = stack_a;
@@ -62,7 +76,6 @@ int	rotate(t_stack **stack_a, t_stack **stack_b, char type, int print)
 		ft_printf("ra\n");
 	else if (type == 'b' && print == 1)
 		ft_printf("rb\n");
-	t_stack	*last;
 	last = ft_lstlast(*stack);
 	last->next = *stack;
 	*stack = (*stack)->next;

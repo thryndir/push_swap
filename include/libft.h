@@ -6,7 +6,7 @@
 /*   By: lgalloux <lgalloux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/24 14:59:46 by lgalloux          #+#    #+#             */
-/*   Updated: 2024/03/21 16:06:38 by lgalloux         ###   ########.fr       */
+/*   Updated: 2024/04/03 15:35:45 by lgalloux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ typedef struct s_stack
 {
 	int				data;
 	struct s_stack	*next;
-	int				pdata;
+	int				index;
 	int				checked;
 }	t_stack;
 
@@ -124,26 +124,26 @@ char			*get_next_line(int fd);
  * `size`. Can only operate on true “C” strings. This means that both `src`
  * and `dst` must be NUL-terminated. Appends the NUL-terminated string `src` to
  * the end of `dst`. It will append at most `size - ft_strlen(dst) - 1` bytes,
- * NUL-terminating the result. This function is the same as strlcat but is has been
- * modified to be executed specialy with get_next_line
+ * NUL-terminating the result. This function is the same as strlcat but is has
+ * been modified to be executed specialy with get_next_line
  * 
  * @param dst A pointer to a memory area.
  * @param src A string.
  * @param size The length of the string `ft_strlcat` tries to create.
  * @return size_t The initial length of `dest` plus the length of `src`.
  */
-size_t				ft_backcat(char *dst, const char *src, size_t size);
+size_t			ft_backcat(char *dst, const char *src, size_t size);
 
 /**
  * @brief Allocates (with malloc(3)) and returns a new string, which is the
- * result of the concatenation of `s1` and `s2`.  This function is the same as strlcat
- * but is has been modified to be executed specialy with get_next_line
+ * result of the concatenation of `s1` and `s2`.  This function is the same
+ * as strlcat but is has been modified to be executed specialy with get_next_line
  * 
  * @param str1 The prefix string.
  * @param str2 The suffix string.
  * @return char* The new string or `NULL` if the allocation fails.
  */
-char				*ft_backjoin(const char *str1, const char *str2);
+char			*ft_backjoin(const char *str1, const char *str2);
 
 /**
  * @brief Create a new string by removing the characters after '\n'
@@ -151,7 +151,7 @@ char				*ft_backjoin(const char *str1, const char *str2);
  * @param buffer the string of the len buffer_size which contains
  * the buffer from get_next_line
  */
-void				ft_clean_line(char *buffer);
+void			ft_clean_line(char *buffer);
 
 /**
  * @brief calls ft_clean_line, frees str and return NULL or str if str != NULL
@@ -160,7 +160,7 @@ void				ft_clean_line(char *buffer);
  * @param buffer a string which contains all the buffer from get_next_line
  * @return char* a string which is the line of the file or NULL if it's the end.
  */
-char				*ft_end_of_line(char *str, char *buffer);
+char			*ft_end_of_line(char *str, char *buffer);
 
 /******************************************************************************/
 /*                                                                            */
@@ -193,7 +193,7 @@ int				ft_printnbr(int nb);
  * @param nb number who need to be printed in base 'base'
  * @return int the number of caractere who are printed
  */
-int		ft_printunbr_base(unsigned int nb, char *base);
+int				ft_printunbr_base(unsigned int nb, char *base);
 
 /**
  * @brief print an pointer address and give his length in base 'base'
@@ -217,7 +217,7 @@ int				ft_printchar(char c);
  * @param str the str who are printed
  * @return int the lenght of the str
  */
-int					ft_printstr(char *str);
+int				ft_printstr(char *str);
 
 /******************************************************************************/
 /*                                                                            */
@@ -290,7 +290,7 @@ char			*ft_strcpy(char *dest, char *src);
  * @param size The length of the string `ft_strlcopy` tries to create.
  * @return The length of `src`.
  */
-size_t	ft_strlcpy(char	*dst, const char	*src, size_t size);
+size_t			ft_strlcpy(char	*dst, const char	*src, size_t size);
 
 /**
  * @brief Concatenate `str` to `dst`. Takes the full `size` of `dst`
@@ -460,7 +460,16 @@ void			ft_striteri(char *str, void (*f)(unsigned int, char*));
  * @param str The string to be converted.
  * @return The converted value.
  */
-int				ft_atoi(const char *str);
+long long int	ft_atolli(const char *str);
+
+/**
+ * @brief Converts the initial portion of the string pointed to by `str` to an
+ * unsigned long long integer.
+ * @param str The string to be converted.
+ * @return The converted value.
+ */
+
+size_t			ft_atoull(const char *str);
 
 /**
  * @brief Allocates memory for an array of `nmemb` elements of size bytes each
@@ -621,14 +630,14 @@ t_stack			*ft_lstmap(t_stack *lst, int (*f)(int), int (*del)(int));
 /**
  * @brief this function will free every subtab of an tab
  * 
- * @param lst an tab who are free after this function
+ * @param lst a tab which is free after this function
  */
 void			ft_freestr(char **lst);
 
 /**
- * @brief this fuction will free every node of an t_stack type
+ * @brief this fuction will free every node of a t_stack type
  * 
- * @param lst the list who are free
+ * @param lst the list which will be freed
  */
 void			ft_free_llist(t_stack **lst);
 

@@ -1,22 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_atoi.c                                          :+:      :+:    :+:   */
+/*   ft_atoull.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: lgalloux <lgalloux@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/30 12:22:24 by lgalloux          #+#    #+#             */
-/*   Updated: 2023/10/30 14:46:41 by lgalloux         ###   ########.fr       */
+/*   Updated: 2024/04/03 15:38:20 by lgalloux         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-int	ft_atoi(const char *str)
+size_t	ft_atoull(const char *str)
 {
-	int	i;
-	int	result;
-	int	sign;
+	int		i;
+	size_t	result;
+	int		sign;
 
 	i = 0;
 	result = 0;
